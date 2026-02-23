@@ -4,6 +4,11 @@
 # @param ensure
 #   present or absent the config file.
 #
+# @param config_name
+#   The name of the config file excluding the suffix (.conf).
+#   Default: 'bareos-fd'
+#   Required: false
+#
 # @param absolute_job_timeout
 #   Absolute Job Timeout
 #
@@ -334,6 +339,7 @@
 #
 class bareos::client::client (
   $ensure = present,
+  $config_name = 'bareos-fd',
   $absolute_job_timeout = undef,
   $allow_bandwidth_bursting = undef,
   $allowed_job_command = undef,
@@ -448,7 +454,7 @@ class bareos::client::client (
     $_require_res_messages = undef
   }
 
-  file { "${bareos::client::config_dir}/${_resource_dir}/bareos-fd.conf":
+  file { "${bareos::client::config_dir}/${_resource_dir}/${config_name}.conf":
     ensure  => $ensure,
     mode    => $bareos::file_mode,
     owner   => $bareos::file_owner,
